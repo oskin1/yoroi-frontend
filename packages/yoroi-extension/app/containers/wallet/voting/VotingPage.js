@@ -24,6 +24,7 @@ import { MultiToken } from '../../../api/common/lib/MultiToken';
 import RegistrationOver from './RegistrationOver';
 import { networks, } from '../../../api/ada/lib/storage/database/prepackaged/networks';
 import type { DelegationRequests } from '../../../stores/toplevel/DelegationStore';
+import globalMessages from '../../../i18n/global-messages';
 
 export type GeneratedData = typeof VotingPage.prototype.generated;
 type Props = {|
@@ -88,7 +89,9 @@ export default class VotingPage extends Component<Props> {
     if(selected == null){
       throw new Error(`${nameof(VotingPage)} no wallet selected`);
     }
-    if (selected.getParent().getWalletType() === WalletTypeOption.HARDWARE_WALLET) {
+    const isHardwareWallet =
+      selected.getParent().getWalletType() === WalletTypeOption.HARDWARE_WALLET;
+    if (isHardwareWallet) {
       return <UnsupportedWallet />;
     }
 
@@ -136,11 +139,20 @@ export default class VotingPage extends Component<Props> {
       />;
     }
 
+    const stepsList = [
+      globalMessages.stepPin,
+      globalMessages.stepConfirm,
+      ...(isHardwareWallet ? [] : [globalMessages.registerLabel]),
+      globalMessages.transactionLabel,
+      globalMessages.stepQrCode,
+    ];
+
     if (uiDialogs.isOpen(VotingRegistrationDialogContainer)) {
       activeDialog = (
         <VotingRegistrationDialogContainer
           {...this.generated.VotingRegistrationDialogProps}
           onClose={this.onClose}
+          stepsList={stepsList}
         />
       );
     }
