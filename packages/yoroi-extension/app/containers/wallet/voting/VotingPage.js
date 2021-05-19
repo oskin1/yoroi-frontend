@@ -25,6 +25,10 @@ import RegistrationOver from './RegistrationOver';
 import { networks, } from '../../../api/ada/lib/storage/database/prepackaged/networks';
 import type { DelegationRequests } from '../../../stores/toplevel/DelegationStore';
 import globalMessages from '../../../i18n/global-messages';
+import {
+  isLedgerNanoWallet,
+  isTrezorTWallet,
+} from '../../../api/ada/lib/storage/models/ConceptualWallet/index';
 
 export type GeneratedData = typeof VotingPage.prototype.generated;
 type Props = {|
@@ -91,6 +95,7 @@ export default class VotingPage extends Component<Props> {
     }
     const isHardwareWallet =
       selected.getParent().getWalletType() === WalletTypeOption.HARDWARE_WALLET;
+
     if (isHardwareWallet) {
       return <UnsupportedWallet />;
     }
@@ -139,6 +144,17 @@ export default class VotingPage extends Component<Props> {
       />;
     }
 
+    let walletType;
+    if (!isHardwareWallet) {
+      walletType = 'mnemonic';
+    } else if (isTrezorTWallet(selected.getParent())) {
+      walletType = 'trezorT';
+    } else if (isLedgerNanoWallet(selected.getParent())) {
+      walletType = 'ledgerNano';
+    } else {
+      throw new Error(`${nameof(VotingPage)} unexpected wallet type`);
+    }
+
     const stepsList = [
       globalMessages.stepPin,
       globalMessages.stepConfirm,
@@ -164,6 +180,7 @@ export default class VotingPage extends Component<Props> {
           hasAnyPending={this.generated.hasAnyPending}
           onExternalLinkClick={handleExternalLinkClick}
           isDelegated={this.isDelegated === true}
+          walletType={walletType}
         />
       </div>
     );
