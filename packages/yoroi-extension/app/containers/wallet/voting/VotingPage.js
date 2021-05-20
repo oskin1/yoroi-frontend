@@ -24,7 +24,6 @@ import { MultiToken } from '../../../api/common/lib/MultiToken';
 import RegistrationOver from './RegistrationOver';
 import { networks, } from '../../../api/ada/lib/storage/database/prepackaged/networks';
 import type { DelegationRequests } from '../../../stores/toplevel/DelegationStore';
-import globalMessages from '../../../i18n/global-messages';
 import {
   isLedgerNanoWallet,
   isTrezorTWallet,
@@ -155,20 +154,12 @@ export default class VotingPage extends Component<Props> {
       throw new Error(`${nameof(VotingPage)} unexpected wallet type`);
     }
 
-    const stepsList = [
-      globalMessages.stepPin,
-      globalMessages.stepConfirm,
-      ...(isHardwareWallet ? [] : [globalMessages.registerLabel]),
-      globalMessages.transactionLabel,
-      globalMessages.stepQrCode,
-    ];
-
     if (uiDialogs.isOpen(VotingRegistrationDialogContainer)) {
       activeDialog = (
         <VotingRegistrationDialogContainer
           {...this.generated.VotingRegistrationDialogProps}
           onClose={this.onClose}
-          stepsList={stepsList}
+          walletType={walletType}
         />
       );
     }
