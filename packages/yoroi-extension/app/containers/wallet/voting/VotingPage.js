@@ -172,6 +172,7 @@ export default class VotingPage extends Component<Props> {
           onExternalLinkClick={handleExternalLinkClick}
           isDelegated={this.isDelegated === true}
           walletType={walletType}
+          roundInfo={roundInfo}
         />
       </div>
     );
