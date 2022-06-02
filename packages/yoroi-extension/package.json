@@ -159,7 +159,7 @@
     "@emurgo/cip14-js": "2.0.0",
     "@emurgo/cip4-js": "1.0.5",
     "@emurgo/js-chain-libs": "0.7.1",
-    "@emurgo/ledger-connect-handler": "4.7.0",
+    "@emurgo/ledger-connect-handler": "7.0.1",
     "@svgr/webpack": "5.5.0",
     "async-mutex": "^0.3.1",
     "axios": "0.21.1",
