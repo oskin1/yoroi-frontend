@@ -195,7 +195,7 @@
     "pbkdf2": "3.1.1",
     "process": "0.11.10",
     "qr-image": "3.2.0",
-    "qrcode.react": "1.0.1",
+    "qrcode.react": "3.1.0",
     "react": "16.13.1",
     "react-blockies": "1.4.1",
     "react-copy-to-clipboard": "5.0.3",
